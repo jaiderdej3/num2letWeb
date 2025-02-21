@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Números a Letras</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input { padding: 10px; margin: 10px; width: 200px; text-align: center; }
+        button { padding: 10px; cursor: pointer; background-color: #007BFF; color: white; border: none; }
+        button:disabled { background-color: gray; }
+        #resultado { margin-top: 20px; font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+    <h2>Convertir Números a Letras</h2>
+    <input type="text" id="numberInput" placeholder="Ingrese un número">
+    <button onclick="convertir()">Convertir</button>
+    <p id="resultado"></p>
+    <button id="copiarBtn" onclick="copiar()" disabled>Copiar Resultado</button>
+
+    <script>
+        async function convertir() {
+            let numero = document.getElementById('numberInput').value;
+            if (!numero) {
+                alert("Por favor, ingrese un número");
+                return;
+            }
+
+            let response = await fetch(`https://tu-api-en-render.onrender.com/convert?number=${numero}`);
+            let data = await response.json();
+            
+            if (data.error) {
+                document.getElementById('resultado').innerText = "Error: " + data.error;
+                document.getElementById('copiarBtn').disabled = true;
+            } else {
+                document.getElementById('resultado').innerText = "Resultado: " + data.words;
+                document.getElementById('copiarBtn').disabled = false;
+            }
+        }
+
+        function copiar() {
+            let texto = document.getElementById('resultado').innerText.replace("Resultado: ", "");
+            navigator.clipboard.writeText(texto);
+            alert("Copiado al portapapeles");
+        }
+    </script>
+</body>
+</html>
