@@ -1,217 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Números a Letras</title>
-    <style>
-        :root {
-            --bg-light: #f9f9f9;
-            --text-light: #333;
-            --bg-dark: #1e1e1e;
-            --text-dark: #f1f1f1;
-            --primary: #007bff;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s;
-        }
-
-        h2 {
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 14px;
-            color: gray;
-        }
-
-        input {
-            padding: 10px;
-            width: calc(100% - 22px);
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: right;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            border: none;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .visible {
-            opacity: 1;
-        }
-
-        .dark-mode {
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-        }
-
-        .dark-mode .container {
-            background: #2c2c2c;
-            color: white;
-        }
-
-        .toggle-dark-mode {
-            position: fixed; /* Fija el botón en la esquina superior derecha */
-            top: 10px;
-            right: 10px;
-            padding: 10px;
-            border: none;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: auto; /* Ajusta el tamaño al contenido */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .toggle-dark-mode:hover {
-            background-color: #0056b3;
-        }
-
-        .history {
-            margin-top: 20px;
-            text-align: left;
-            background: rgba(0, 123, 255, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-
-        .history h3 {
-            margin: 0;
-            font-size: 16px;
-            color: var(--primary);
-        }
-
-        .history ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .history li {
-            font-size: 14px;
-            margin-top: 5px;
-            color: #555;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Convierte números a letras en pesos colombianos con un diseño moderno y elegante.">
+  <title>Conversor de Números a Letras</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <button class="toggle-dark-mode" onclick="toggleDarkMode()">🌙</button>
+  <button class="toggle-dark-mode" onclick="toggleDarkMode()" aria-label="Activar modo oscuro">🌙</button>
+
+  <header>
+    <h1>Conversor de Números a Letras</h1>
+    <p>Convierte cifras a palabras en pesos colombianos de forma moderna y elegante.</p>
+  </header>
+
+  <main>
     <div class="container">
-        <h2>🔢 Conversor de Números a Letras</h2>
-        <p>Introduce un número para convertirlo a palabras.</p>
-        <input type="text" id="numero" placeholder="Ejemplo: 1234.56" oninput="validarNumero(event)">
-        <button onclick="convertir()">Convertir</button>
-        <p class="result" id="resultado"></p>
-        
-        <div class="history" id="historial">
-            <h3>📝 Historial de conversiones:</h3>
-            <ul id="lista-historial"></ul>
+      <h2>Ingresa el número</h2>
+      <label for="numero">Número:</label>
+      <input type="text" id="numero" placeholder="Ejemplo: 1234.56" oninput="validarNumero(event)">
+      <button onclick="convertir()">Convertir</button>
+      <p class="result" id="resultado"></p>
+
+      <section class="history" id="historial" aria-label="Historial de conversiones">
+        <div class="history-header">
+          <h3>Historial de conversiones</h3>
+          <button class="clear-history" onclick="limpiarHistorial()" aria-label="Limpiar historial">🗑️ Limpiar</button>
         </div>
+        <ul id="lista-historial"></ul>
+      </section>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (localStorage.getItem("dark-mode") === "enabled") {
-                document.body.classList.add("dark-mode");
-            }
-        });
+    <section class="info">
+      <h2>¿Por qué usar este conversor?</h2>
+      <p>
+        Esencial para documentos financieros, legales y administrativos. Nuestro conversor te garantiza:
+      </p>
+      <ul>
+        <li><strong>Precisión:</strong> Conversión exacta respetando las normas gramaticales.</li>
+        <li><strong>Facilidad de uso:</strong> Interfaz intuitiva adaptable a cualquier dispositivo.</li>
+        <li><strong>Modo oscuro:</strong> Experiencia cómoda en entornos de baja iluminación.</li>
+        <li><strong>Historial:</strong> Acceso rápido a conversiones recientes.</li>
+      </ul>
+      <h2>¿Cómo funciona?</h2>
+      <p>
+        Ingresa el número, presiona "Convertir" y obtén la conversión a palabras al instante. El historial se actualiza
+        automáticamente.
+      </p>
+    </section>
 
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-            localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+    <section class="credits">
+      <h2>Acerca de esta API</h2>
+      <p>
+        Esta herramienta utiliza una API desarrollada en Python y se apoya en las siguientes librerías:
+      </p>
+      <ul>
+        <li><strong>Flask:</strong> Framework web minimalista.</li>
+        <li><strong>Flask-CORS:</strong> Habilita la comunicación entre dominios.</li>
+        <li><strong>num2words:</strong> Convierte números en palabras adaptado al español.</li>
+      </ul>
+      <p>
+        ¡Gracias a la comunidad de código abierto por estas increíbles herramientas!
+      </p>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("dark-mode") === "enabled") {
+        document.body.classList.add("dark-mode");
+      }
+      const historialGuardado = localStorage.getItem("conversion-history");
+      if (historialGuardado) {
+        document.getElementById("lista-historial").innerHTML = historialGuardado;
+        document.getElementById("historial").style.display = "block";
+      }
+    });
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+
+      // Ajustar los textos dinámicos cuando cambia el modo oscuro
+      const resultado = document.getElementById("resultado");
+      const historial = document.getElementById("historial");
+
+      if (document.body.classList.contains("dark-mode")) {
+        resultado.style.color = "#ffffff";
+        historial.style.color = "#ffffff";
+      } else {
+        resultado.style.color = "";
+        historial.style.color = "";
+      }
+    }
+
+    function validarNumero(event) {
+      let input = event.target;
+      let valor = input.value;
+      valor = valor.replace(/[^0-9.]/g, "");
+      const parts = valor.split(".");
+      if (parts.length > 2) {
+        valor = parts[0] + "." + parts.slice(1).join("");
+      }
+      input.value = valor;
+    }
+
+    async function convertir() {
+      const input = document.getElementById("numero");
+      const numero = input.value.trim();
+      const resultado = document.getElementById("resultado");
+      const historial = document.getElementById("historial");
+      const listaHistorial = document.getElementById("lista-historial");
+
+      if (numero === "" || isNaN(parseFloat(numero))) {
+        alert("Por favor, ingrese un número válido.");
+        return;
+      }
+
+      resultado.textContent = "Convirtiendo...";
+      resultado.classList.remove("visible");
+
+      try {
+        const response = await fetch(`https://num2let.onrender.com/convert?number=${encodeURIComponent(numero)}`);
+        if (!response.ok) {
+          throw new Error("Error en la respuesta de la API");
         }
+        const data = await response.json();
+        if (data.texto) {
+          resultado.textContent = data.texto;
+          resultado.classList.add("visible");
 
-        function validarNumero(event) {
-            let input = event.target;
-            let valor = input.value.replace(/[^0-9,.]/g, "");
-            valor = valor.replace(/,/g, "."); 
-            input.value = valor;
+          const nuevoItem = document.createElement("li");
+          nuevoItem.textContent = `${numero} → ${data.texto}`;
+          listaHistorial.prepend(nuevoItem);
+          historial.style.display = "block";
+          localStorage.setItem("conversion-history", listaHistorial.innerHTML);
+
+          if (listaHistorial.children.length > 5) {
+            listaHistorial.removeChild(listaHistorial.lastChild);
+            localStorage.setItem("conversion-history", listaHistorial.innerHTML);
+          }
+        } else {
+          resultado.textContent = "Error en la conversión.";
         }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+        resultado.textContent = "Error al conectar con la API.";
+      }
+    }
 
-        function convertir() {
-            let input = document.getElementById("numero");
-            let numero = input.value.trim();
-            let resultado = document.getElementById("resultado");
-            let historial = document.getElementById("historial");
-            let listaHistorial = document.getElementById("lista-historial");
-
-            if (numero === "" || isNaN(parseFloat(numero))) {
-                alert("Por favor, ingrese un número válido.");
-                return;
-            }
-
-            resultado.textContent = "Convirtiendo...";
-            resultado.classList.remove("visible");
-
-            fetch(`https://num2let.onrender.com/convert?number=${numero}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.texto) {
-                        resultado.textContent = data.texto;
-                        resultado.classList.add("visible");
-
-                        // Guardar en el historial
-                        let nuevoItem = document.createElement("li");
-                        nuevoItem.textContent = `${numero} → ${data.texto}`;
-                        listaHistorial.prepend(nuevoItem);
-                        historial.style.display = "block";
-
-                        // Limitar historial a 5 elementos
-                        if (listaHistorial.children.length > 5) {
-                            listaHistorial.removeChild(listaHistorial.lastChild);
-                        }
-                    } else {
-                        resultado.textContent = "Error en la conversión.";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error en la solicitud:", error);
-                    resultado.textContent = "Error al conectar con la API.";
-                });
-        }
-    </script>
+    function limpiarHistorial() {
+      const listaHistorial = document.getElementById("lista-historial");
+      listaHistorial.innerHTML = "";
+      document.getElementById("historial").style.display = "none";
+      localStorage.removeItem("conversion-history");
+    }
+  </script>
 </body>
+
 </html>
